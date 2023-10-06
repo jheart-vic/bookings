@@ -14,7 +14,7 @@ import BookingsPage from "./pages/BookingsPage";
 import BookingPage from "./pages/BookingPage";
 
 
-axios.defaults.baseURL = 'http://localhost:4000';
+axios.defaults.baseURL = 'https://bookings-575t2vbnn-victor-chiemerie-akabuezes-projects.vercel.app';
 axios.defaults.withCredentials = true;
 
 function App() {
