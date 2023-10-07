@@ -5,7 +5,7 @@ const jwt = require("jsonwebtoken");
 const cookieParser = require("cookie-parser");
 const dotenv = require("dotenv");
 const imageDownloader = require("image-downloader");
-const { default: mongoose } = require("mongoose");
+const mongoose = require("mongoose");
 const multer = require("multer");
 const User = require("./models/User");
 const fs = require("fs");
@@ -18,7 +18,7 @@ dotenv.config();
 const app = express();
 const bcryptSalt = bcrypt.genSaltSync(10);
 const jwtSecret = process.env.JWT_SECRET;
-const port = process.env || 4000;
+const port =  4000;
 
 app.use(express.json());
 app.use(cookieParser());
@@ -26,7 +26,7 @@ app.use("/uploads", express.static(__dirname + "/uploads"));
 app.use(
   cors({
     credentials: true,
-    origin: "*",
+    origin: "http://localhost:5172",
   })
 );
 
@@ -64,7 +64,6 @@ function getUserDataFromReq(req) {
   });
 }
 
-
 app.get("/user-data", async (req, res) => {
   try {
     const userData = await getUserDataFromReq(req);
@@ -73,9 +72,6 @@ app.get("/user-data", async (req, res) => {
     res.status(500).json({ error: "Internal server error" });
   }
 });
-
-
-
 
 
 const storage = multer.diskStorage({
