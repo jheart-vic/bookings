@@ -12,7 +12,6 @@ const fs = require("fs");
 const Place = require("./models/Place");
 const Booking = require("./models/Booking");
 
-// const mime = require('mime-types');
 dotenv.config();
 
 const app = express();
@@ -34,14 +33,7 @@ app.get("/", (req, res) => {
   res.json("Hello World");
 });
 
-// function getUserDataFromReq(req) {
-//   return new Promise((resolve, reject) => {
-//     jwt.verify(req.cookies.token, jwtSecret, {}, async (err, userData) => {
-//       if (err) throw err;
-//       resolve(userData);
-//     });
-//   });
-// }
+
 function getUserDataFromReq(req) {
   return new Promise((resolve, reject) => {
     const { token } = req.cookies;
