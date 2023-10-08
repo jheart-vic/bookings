@@ -17,7 +17,7 @@ dotenv.config();
 const app = express();
 const bcryptSalt = bcrypt.genSaltSync(10);
 const jwtSecret = process.env.JWT_SECRET;
-const port =  4000;
+const port = process.env.PORT || 4000;
 
 app.use(express.json());
 app.use(cookieParser());
