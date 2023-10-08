@@ -17,7 +17,7 @@ dotenv.config();
 const app = express();
 const bcryptSalt = bcrypt.genSaltSync(10);
 const jwtSecret = process.env.JWT_SECRET;
-const port = process.env.PORT || 4000;
+const port = process.env.PORT|| 4000;
 
 app.use(express.json());
 app.use(cookieParser());
@@ -25,7 +25,7 @@ app.use("/uploads", express.static(__dirname + "/uploads"));
 app.use(
   cors({
     credentials: true,
-    origin: "https://bookings-aqhwlry8g-victor-chiemerie-akabuezes-projects.vercel.app",
+    origin: "http://localhost:5172",
   })
 );
 
