@@ -166,7 +166,7 @@ app.post("/upload-by-link", async (req, res) => {
 // const photosMiddleware = multer({ dest: "/tmp" });
 // local storage
 const photosMiddleware = multer({ dest: "uploads/" });
-app.post("/upload", photosMiddleware.array("photos", 100),  (req, res) => {
+  app.post("/upload", photosMiddleware.array("photos", 100),  (req, res) => {
   const uploadedFiles = [];
   for (let i = 0; i < req.files.length; i++) {
     const { path, originalname, mimetype } = req.files[i];
