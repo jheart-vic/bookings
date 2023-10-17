@@ -34,12 +34,12 @@ export default function RegisterPage () {
       formData.append ('email', email);
       formData.append ('password', password);
       if (photoFile) {
-        formData.append ('photo', photoFile); // Use the correct field name "photo"
+        formData.append ('photo', photoFile);
       }
 
       await axios.post ('/register', formData, {
         headers: {
-          'Content-Type': 'multipart/form-data', // Set the correct content type for FormData
+          'Content-Type': 'multipart/form-data',
         },
       });
 

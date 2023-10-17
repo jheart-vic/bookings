@@ -74,7 +74,7 @@ const storage = multer.diskStorage({
     const extension = file.originalname.split(".").pop();
     const filename = `photo_${Date.now()}.${extension}`;
     cb(null, filename);
-console.log(filename);
+
   },
 });
 
