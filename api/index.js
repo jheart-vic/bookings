@@ -19,7 +19,7 @@ const bcryptSalt = bcrypt.genSaltSync(10);
 const jwtSecret = process.env.JWT_SECRET;
 const port = process.env.PORT|| 4000;
 const corsOptions = {
-  origin: "http://localhost:5172",
+  origin: "https://bookings-sandy.vercel.app",
   methods: "GET,HEAD,PUT,PATCH,POST,DELETE",
   credentials: true,
   optionsSuccessStatus: 204,
