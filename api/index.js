@@ -18,15 +18,10 @@ const app = express();
 const bcryptSalt = bcrypt.genSaltSync(10);
 const jwtSecret = process.env.JWT_SECRET;
 const port = process.env.PORT|| 4000;
-const corsOptions = {
-  origin: "https://bookings-frontend.vercel.app",
-  methods: "GET,HEAD,PUT,PATCH,POST,DELETE",
-  credentials: true,
-  optionsSuccessStatus: 204,
-};
+
 app.use(express.json());
+app.use(cors());
 app.use(cookieParser());
-app.use(cors(corsOptions));
 app.use("/uploads", express.static(__dirname + "/uploads"));
 
 app.get("/", (req, res) => {
