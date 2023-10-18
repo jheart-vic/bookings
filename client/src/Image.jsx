@@ -1,24 +1,27 @@
 /* eslint-disable react/prop-types */
-// export default function Image({ src, ...rest }) {
-//   const baseUrl = import.meta.env.VITE_BASE_URL || 'http://localhost:4000';
-
-//   if (src && src.startsWith('https://')) {
-//     return (
-//       <img {...rest} src={src} alt={''} />
-//     );
-//   } else {
-//     const localSrc = `${baseUrl}/uploads/${src}`;
-//     return (
-//       <img {...rest} src={localSrc} alt={''} />
-//     );
-//   }
+// export default function Image({src,...rest}) {
+//   src = src && src.includes('https://')
+//     ? src
+//     : 'http://localhost:4000/uploads/'+src;
+//   return (
+//     <img  {...rest} src={src} alt={''} />
+//   );
 // }
 
+// Compare this snippet from client/src/PhotosUploader.jsx:
+/* eslint-disable react/prop-types */
 export default function Image({ src, ...rest }) {
-  const isExternalUrl = src.startsWith('http://') || src.startsWith('https://');
-
-  // Construct the image URL based on whether it's external or local
-  const imageUrl = isExternalUrl ? src : `${import.meta.env.VITE_BASE_URL}/uploads/${src}`;
-
-  return <img {...rest} src={imageUrl} alt={''} />;
+  // Check if src is a remote URL (starts with 'https://')
+  const baseUrl = import.meta.env.VITE_BASE_URL
+  if (src && src.startsWith('https://')) {
+    return (
+      <img {...rest} src={src} alt={''} />
+    );
+  } else {
+    // Assuming it's a local path
+    const localSrc = `${baseUrl}/uploads/` + src;
+    return (
+      <img {...rest} src={localSrc} alt={''} />
+    );
+  }
 }
