@@ -18,16 +18,16 @@ const app = express();
 const bcryptSalt = bcrypt.genSaltSync(10);
 const jwtSecret = process.env.JWT_SECRET;
 const port = process.env.PORT|| 4000;
-
+const corsOptions = {
+  origin: "http://localhost:5172",
+  methods: "GET,HEAD,PUT,PATCH,POST,DELETE",
+  credentials: true,
+  optionsSuccessStatus: 204,
+};
 app.use(express.json());
 app.use(cookieParser());
+app.use(cors(corsOptions));
 app.use("/uploads", express.static(__dirname + "/uploads"));
-app.use(
-  cors({
-    credentials: true,
-    origin: "http://localhost:5172",
-  })
-);
 
 app.get("/", (req, res) => {
   res.json("Hello World");
