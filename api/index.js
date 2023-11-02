@@ -21,18 +21,8 @@ const jwtSecret = process.env.JWT_SECRET;
 const port = process.env.PORT|| 4000;
 
 app.use(express.json());
-const staticDir = path.join(__dirname, 'client', 'dist'); // Replace 'dist' with your Vite build output directory
+const staticDir = path.join(__dirname, 'client', 'dist');
 app.use(express.static(staticDir));
-// app.use((req, res, next) => {
-//   res.setHeader("Access-Control-Allow-Origin", "http://localhost:5172");
-//   res.setHeader("Access-Control-Allow-Credentials", "true");
-//   res.setHeader("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE");
-//   res.setHeader("Access-Control-Allow-Headers", "Content-Type, Authorization");
-//   res.setHeader("Access-Control-Expose-Headers", "X-Custom-Header");
-//   res.setHeader("Access-Control-Max-Age", "3600");
-//   res.setHeader("Vary", "Origin");
-//   next();
-// });
 app.use(cookieParser());
 app.use("/uploads", express.static(__dirname + "/uploads"));
 
@@ -40,6 +30,9 @@ app.get("/", (req, res) => {
   res.json("Hello World");
 });
 
+setInterval(() => {
+app.get('/')
+}, 60000);
 
 function getUserDataFromReq(req) {
   return new Promise((resolve, reject) => {
