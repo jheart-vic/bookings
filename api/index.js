@@ -36,9 +36,13 @@ app.use(express.static(staticDir));
 app.use(cookieParser());
 app.use("/uploads", express.static(__dirname + "/uploads"));
 
-app.get("/", (req, res) => {
-  res.json("Hello World");
+app.get('*', (req, res) => {
+  res.sendFile(path.join(staticDir, 'index.html'));
 });
+
+// app.get("/", (req, res) => {
+//   res.json("Hello World");
+// });
 
 
 function getUserDataFromReq(req) {
@@ -356,9 +360,7 @@ app.get("/bookings", async (req, res) => {
   res.json(await Booking.find({ user: userData.id }).populate("place"));
 });
 
-app.get('*', (req, res) => {
-  res.sendFile(path.join(staticDir, 'index.html'));
-});
+
 
 app.listen(port, () =>{
   console.log(`server listening on port ${port}`);
