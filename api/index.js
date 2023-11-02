@@ -20,7 +20,10 @@ const jwtSecret = process.env.JWT_SECRET;
 const port = process.env.PORT|| 4000;
 
 app.use(express.json());
-app.use(cors({origin: "*"}));
+app.use((req, res, next) => {
+  res.setHeader('Access-Control-Allow-Origin', 'https://bookings-frontend.vercel.app');
+  next();
+});
 app.use(cookieParser());
 app.use("/uploads", express.static(__dirname + "/uploads"));
 
