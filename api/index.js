@@ -105,7 +105,6 @@ app.post("/register", upload.single("photo") , async (req, res) => {
     });
     res.json(userDocs);
   } catch (e) {
-console.log(e,'the error')
     res.status(422).json(e);
   }
 });
@@ -140,8 +139,6 @@ app.post("/login", async (req, res) => {
 
 
 app.get("/profile", (req, res) => {
-
-console.log(jwtSecret)
   const { token } = req.cookies;
   if (token) {
     jwt.verify(token, jwtSecret, {}, async (err, userData) => {
