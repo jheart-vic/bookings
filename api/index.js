@@ -1,4 +1,5 @@
 const express = require("express");
+const path = require("path");
 const cors = require("cors");
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
@@ -20,16 +21,18 @@ const jwtSecret = process.env.JWT_SECRET;
 const port = process.env.PORT|| 4000;
 
 app.use(express.json());
-app.use((req, res, next) => {
-  res.setHeader('Access-Control-Allow-Origin', 'https://bookings-frontend.vercel.app');
-  res.setHeader('Access-Control-Allow-Credentials', 'true');
-  res.setHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE');
-  res.setHeader('Access-Control-Allow-Headers', 'Content-Type, Authorization');
-  res.setHeader('Access-Control-Expose-Headers', 'X-Custom-Header');
-  res.setHeader('Access-Control-Max-Age', '3600');
-  res.setHeader('Vary', 'Origin');
-  next();
-});
+const staticDir = path.join(__dirname, 'client', 'dist'); // Replace 'dist' with your Vite build output directory
+app.use(express.static(staticDir));
+// app.use((req, res, next) => {
+//   res.setHeader("Access-Control-Allow-Origin", "http://localhost:5172");
+//   res.setHeader("Access-Control-Allow-Credentials", "true");
+//   res.setHeader("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE");
+//   res.setHeader("Access-Control-Allow-Headers", "Content-Type, Authorization");
+//   res.setHeader("Access-Control-Expose-Headers", "X-Custom-Header");
+//   res.setHeader("Access-Control-Max-Age", "3600");
+//   res.setHeader("Vary", "Origin");
+//   next();
+// });
 app.use(cookieParser());
 app.use("/uploads", express.static(__dirname + "/uploads"));
 
@@ -86,7 +89,7 @@ const upload = multer({ storage });
 
 app.post("/register", upload.single("photo") , async (req, res) => {
 
-  mongoose.connect(process.env.MONGO_URI);
+
   const { name, email, password } = req.body;
 
   let photo = null;
@@ -100,14 +103,16 @@ app.post("/register", upload.single("photo") , async (req, res) => {
       photo,
       password: bcrypt.hashSync(password, bcryptSalt),
     });
+console.log(userDocs)
     res.json(userDocs);
   } catch (e) {
+console.log(e,'the error')
     res.status(422).json(e);
   }
 });
 
 app.post("/login", async (req, res) => {
-  mongoose.connect(process.env.MONGO_URI);
+
   const { email, password } = req.body;
   const userDoc = await User.findOne({ email }, null, { maxTimeMS: 5000 });
   if (userDoc) {
@@ -136,7 +141,8 @@ app.post("/login", async (req, res) => {
 
 
 app.get("/profile", (req, res) => {
-  mongoose.connect(process.env.MONGO_URI);
+
+console.log(jwtSecret)
   const { token } = req.cookies;
   if (token) {
     jwt.verify(token, jwtSecret, {}, async (err, userData) => {
@@ -186,7 +192,7 @@ const photosMiddleware = multer({ dest: "uploads/" });
 });
 
 app.post("/places", (req, res) => {
-  mongoose.connect(process.env.MONGO_URI);
+
   const { token } = req.cookies;
   const {
     title,
@@ -220,7 +226,7 @@ app.post("/places", (req, res) => {
 });
 
 app.get("/user-places", (req, res) => {
-  mongoose.connect(process.env.MONGO_URI);
+
   const { token } = req.cookies;
   jwt.verify(token, jwtSecret, {}, async (err, userData) => {
     const { id } = userData;
@@ -229,13 +235,13 @@ app.get("/user-places", (req, res) => {
 });
 
 app.get("/places/:id", async (req, res) => {
-  mongoose.connect(process.env.MONGO_URI);
+
   const { id } = req.params;
   res.json(await Place.findById(id));
 });
 
 app.put("/places", async (req, res) => {
-  mongoose.connect(process.env.MONGO_URI);
+
   const { token } = req.cookies;
   const {
     id,
@@ -274,7 +280,7 @@ app.put("/places", async (req, res) => {
 
 
 app.delete("/places/:id", async (req, res) => {
-  mongoose.connect(process.env.MONGO_URI);
+
   const { id } = req.params;
   const userData = await getUserDataFromReq(req);
 
@@ -293,12 +299,12 @@ app.delete("/places/:id", async (req, res) => {
 });
 
 app.get("/places", async (req, res) => {
-  mongoose.connect(process.env.MONGO_URI);
+
   res.json(await Place.find());
 });
 
 app.post("/bookings", async (req, res) => {
-  mongoose.connect(process.env.MONGO_URI);
+
   const userData = await getUserDataFromReq(req);
   const { place, checkIn, checkOut, numberOfGuests, name, phone, price } =
     req.body;
@@ -313,6 +319,7 @@ app.post("/bookings", async (req, res) => {
     user: userData.id,
   })
     .then((doc) => {
+console.log(doc)
       res.json(doc);
     })
     .catch((err) => {
@@ -322,7 +329,7 @@ app.post("/bookings", async (req, res) => {
 
 
 app.delete("/bookings/:id", async (req, res) => {
-  mongoose.connect(process.env.MONGO_URI);
+
   const { id } = req.params;
   const userData = await getUserDataFromReq(req);
 
@@ -345,9 +352,15 @@ app.delete("/bookings/:id", async (req, res) => {
 });
 
 app.get("/bookings", async (req, res) => {
-  mongoose.connect(process.env.MONGO_URI);
   const userData = await getUserDataFromReq(req);
   res.json(await Booking.find({ user: userData.id }).populate("place"));
 });
 
-app.listen(4000, () => console.log(`server listening on port ${port}`));
+app.get('*', (req, res) => {
+  res.sendFile(path.join(staticDir, 'index.html'));
+});
+
+app.listen(port, () =>{
+  console.log(`server listening on port ${port}`);
+  mongoose.connect(process.env.MONGO_URI).then(() => console.log("MongoDB connected"));
+})

@@ -5,29 +5,12 @@ import axios from 'axios';
 export default function RegisterPage () {
   const [name, setName] = useState ('');
   const [email, setEmail] = useState ('');
-  // const[photo, setPhoto]=useState('')
   const [photoFile, setPhotoFile] = useState (null);
   const [password, setPassword] = useState ('');
   const [redirect, setRedirect] = useState ('');
   async function registerUser (ev) {
     ev.preventDefault ();
 
-    //     try {
-    //       await axios.post ('/register', {
-    //         name,
-    //         email,
-    //         password,
-    //         photo,
-    //       });
-    //       alert ('Registration successful. Now you can log in');
-    //       setName ('');
-    //       setEmail ('');
-    //       setPassword ('');
-    // setRedirect('/login');
-    //     } catch (e) {
-    //       alert ('Registration failed. Please try again later');
-    //     }
-    //   }
     try {
       const formData = new FormData ();
       formData.append ('name', name);

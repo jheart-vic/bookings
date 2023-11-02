@@ -69,10 +69,10 @@ export default function Header() {
       >
         {user ? (
           <div>
-            {user.photo ? (
+            {user?.photo ? (
               <Image
-                src={user.photo}
-                alt={user.name}
+                src={user?.photo}
+                alt={user?.name}
                 className="rounded-full w-8 h-8 mx-auto"
               />
             ) : (

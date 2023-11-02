@@ -52,10 +52,10 @@ export default function ProfilePage () {
       <AccountNav />
       {subpage === 'profile' &&
         <div className="text-center max-w-lg mx-auto">
-          {user.photo
+          {user?.photo
             ? <Image
-                src={user.photo}
-                alt={user.name}
+                src={user?.photo}
+                alt={user?.name}
                 className="rounded-full w-32 h-32 mx-auto"
               />
             :
