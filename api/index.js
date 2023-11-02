@@ -22,6 +22,12 @@ const port = process.env.PORT|| 4000;
 app.use(express.json());
 app.use((req, res, next) => {
   res.setHeader('Access-Control-Allow-Origin', 'https://bookings-frontend.vercel.app');
+  res.setHeader('Access-Control-Allow-Credentials', 'true');
+  res.setHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE');
+  res.setHeader('Access-Control-Allow-Headers', 'Content-Type, Authorization');
+  res.setHeader('Access-Control-Expose-Headers', 'X-Custom-Header');
+  res.setHeader('Access-Control-Max-Age', '3600');
+  res.setHeader('Vary', 'Origin');
   next();
 });
 app.use(cookieParser());
