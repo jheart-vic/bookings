@@ -5,7 +5,6 @@ import axios from 'axios';
 export default function RegisterPage () {
   const [name, setName] = useState ('');
   const [email, setEmail] = useState ('');
-  const [photoFile, setPhotoFile] = useState (null);
   const [password, setPassword] = useState ('');
   const [redirect, setRedirect] = useState ('');
   async function registerUser (ev) {
@@ -16,9 +15,6 @@ export default function RegisterPage () {
       formData.append ('name', name);
       formData.append ('email', email);
       formData.append ('password', password);
-      if (photoFile) {
-        formData.append ('photo', photoFile);
-      }
 
       await axios.post ('/register', formData, {
         headers: {
@@ -62,22 +58,6 @@ export default function RegisterPage () {
             value={password}
             onChange={ev => setPassword (ev.target.value)}
           />
-          <div className="flex items-center mt-1 mb-1 p-1">
-            <input
-              type="file"
-              accept="image/*"
-              onChange={ev => setPhotoFile (ev.target.files[0])}
-              className="hidden"
-              id="fileInput"
-            />
-            <label
-              htmlFor="fileInput"
-              className="bg-gray-200 hover:bg-primary text-black font-semibold py-2 px-4 rounded cursor-pointer"
-            >
-              Upload a Photo
-            </label>
-            {photoFile && <p className="ml-2">{photoFile.name}</p>}
-          </div>
 
           <button className="primary">Register</button>
           <div className="text-center py-2 text-gray-500">

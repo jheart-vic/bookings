@@ -4,7 +4,6 @@ import { Navigate, useParams} from 'react-router-dom';
 import axios from 'axios';
 import PlacesPage from './PlacesPage';
 import AccountNav from '../AccountNav';
-import Image from '../Image.jsx';
 
 export default function ProfilePage () {
   const [redirect, setRedirect] = useState (null);
@@ -52,21 +51,6 @@ export default function ProfilePage () {
       <AccountNav />
       {subpage === 'profile' &&
         <div className="text-center max-w-lg mx-auto">
-          {user?.photo
-            ? <Image
-                src={user?.photo}
-                alt={user?.name}
-                className="rounded-full w-32 h-32 mx-auto"
-              />
-            :
-            <div className="text">
-            <img
-                src="https://img.freepik.com/free-psd/3d-illustration-person-with-sunglasses_23-2149436188.jpg?size=626&ext=jpg"
-                alt="Default Avatar"
-                className="rounded-full w-32 h-32 mx-auto"
-              />
-            </div>
-              }
           Logged in as {user.name} (email: {user.email})<br />
           <button onClick={logout} className="primary max-w-sm mt-2">
             Logout
